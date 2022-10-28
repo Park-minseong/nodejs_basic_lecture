@@ -201,24 +201,83 @@
 // myEmitter.emit("test");
 ///////////////////////////////////////////// 여러 개의 이벤트 핸들러인 경우 배열에 넣어서 관리해줘야 합니다.
 
-const EventEmitter = require("events");
+// const EventEmitter = require("events");
 
-const myEmitter = new EventEmitter();
+// const myEmitter = new EventEmitter();
 
-const cbArr = [];
+// const cbArr = [];
 
-cbArr[0] = () => {
-  console.log("A");
-};
+// cbArr[0] = () => {
+//   console.log("A");
+// };
 
-cbArr[1] = () => {
-  console.log("B");
-};
+// cbArr[1] = () => {
+//   console.log("B");
+// };
 
-myEmitter.on("test", cbArr[0]);
-myEmitter.on("test", cbArr[1]);
+// myEmitter.on("test", cbArr[0]);
+// myEmitter.on("test", cbArr[1]);
 
-myEmitter.off("test", cbArr[0]);
-myEmitter.off("test", cbArr[1]);
+// myEmitter.off("test", cbArr[0]);
+// myEmitter.off("test", cbArr[1]);
 
-myEmitter.emit("test");
+// myEmitter.emit("test");
+
+//--------------------------------------------------------------간단 서버 만들어보기
+const http = require('http');
+
+const express = require('express');
+
+const app = express();
+
+const users = ['Joe', 'Kim', 'Park'];
+
+// const server = http.createServer((request, response) => {
+//   // Arrow Function, const
+//   if (request.url === "/") {
+//     response.end("<h1>Welcome!</h1>");
+//   } else if (request.url === "/users") {
+//     response.end(`<h1>${users}/h1>`); // Template String
+//   } else if (request.url.split("/")[1] === "users") {
+//     // url : /users/1, /users/2, .. // etc
+//     const userIdx = request.url.split("/")[2];
+//     const userName = users[userIdx - 1]; // etc
+
+//     response.end(`<h1>${userName}</h1>`); // Template String
+//   } else {
+//     response.end("<h1>Page Not Available</h1>");
+//   }
+// });
+
+// server.listen(3000);
+
+app.get('/', (request, response) => {
+  response.end('<h1>Welcome!</h1>');
+});
+
+app.get('/users', (request, response) => {
+  response.end(`<h1>${users}</h1>`);
+});
+
+app.get('/users/:id', (request, response) => {
+  const userName = users[request.params.id - 1];
+  response.end(`<h1>${userName}</h1>`);
+});
+
+app.get('*', (request, response) => {
+  response.end('<h1>Page Not Available</h1>');
+});
+
+app.listen(3000);
+//------------------------------------------------------------
+let url = new URL('http://example.com/ssd/dgd/item?dfsf=sdg&id=123');
+console.log(url.protocol);
+console.log(url.host);
+console.log(url.pathname);
+console.log(url.search);
+//------------------------------------------------------------
+// npm 명령어들
+// npm search express
+// npm info express
+// npm list
+// npm audit
